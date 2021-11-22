@@ -24,7 +24,7 @@ let globals = (function() {
 		"Please share your experience with us. Give me a thumbs up to continue",
 	];
 	let questionsLength = 0;
-	let q5_y_responce = "Thank you for providing your feedback.";
+	let q5_y_responce = "Thank you for providing your feedback. Unfortunately, associates and their immediate family members are not eligible to enter the competition.";
 	let q5_n_responce = "Please use your cell phone to scan the QR code to complete the rest of the survey to confirm your entry to win a R5,000 Game voucher. If your cell phone does not have QR code capability, you may complete the survey on feedback.game.co.za T’s and C’s apply.";
 	let json_obj = {
 		Device: null,

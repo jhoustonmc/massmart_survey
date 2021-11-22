@@ -94,7 +94,7 @@ def index():
 
 	if (download_all_blobs(logo_container_name, logo_local_path) == -1):
 		return render_template('dashboard.html', error="Error with getting data from Azure")
-	franchise_list = ['Aramex', 'BCX', 'Builders', 'Game', 'Makro']
+
 	return render_template('dashboard.html', franchise=franchise_list, config_data=config_json_data)
 
 
@@ -106,14 +106,10 @@ def sort_stores():
 		with open("./data//list/massmartfranchiseslist.json") as f:
 			json_data = json.load(f)
 
-		if (franchise == 'Aramex'):
-			store_list = ['Aramex Pretoria', 'Rustenburg', 'Polokwane', 'Lethabong']
-		else:
-			store_list = []
-			for stores in json_data["stores"]:
-				if (stores["group"] == franchise):
-					store_list.append(stores["store"])
-				
+		store_list = []
+		for stores in json_data["stores"]:
+			if (stores["group"] == franchise):
+				store_list.append(stores["store"])
 
 		status = "success"
 		# Sending data to frontend
@@ -132,31 +128,22 @@ def authenticate():
 			return({"status": "Incorrect data submitted"})
 		with open("./data//list/massmartfranchiseslist.json") as f:
 			json_data = json.load(f)
-		
-		if (franchise == 'Aramex'):
-			questions = ["Did your package deliver on time?", "Were the staff that you interacted with helpful and friendly?", "Were all the products in good condition upon reception?", "Were you offered any additional products by an employee", "Would you recommend Aramex to a family member or friend?", "Do you or any of your immediate family members work for Aramex?"]
-			store_password = '54321'
-			colour = "#ff0000"
-			image = "Aramex.png"
-			status = "success"
-			uuid = "GA00031"
-			session['uuid_list'] = [uuid]
-		else:
+
 		# Getting colour, password, questions and franchise specific to store picked
-			for stores in json_data["stores"]:
-				if (stores["store"] == store and stores["group"] == franchise):
-					questions = stores["questions"]
-					store_password = stores["upassword"]
-					colour = stores["color"]
-					image = stores["logo"]
-					uuid = stores["uuid"]
-					session['uuid_list'] = [uuid]
-					status = "success"
-					break
-				else:
-					status = "error"
-			if (status == "error"):
-				return({"status": "Incorrect data submitted"})
+		for stores in json_data["stores"]:
+			if (stores["store"] == store and stores["group"] == franchise):
+				questions = stores["questions"]
+				store_password = stores["upassword"]
+				colour = stores["color"]
+				image = stores["logo"]
+				uuid = stores["uuid"]
+				session['uuid_list'] = [uuid]
+				status = "success"
+				break
+			else:
+				status = "error"
+		if (status == "error"):
+			return({"status": "Incorrect data submitted"})
 	
 		# Authenticating password
 		if (password == store_password):
@@ -234,8 +221,6 @@ def get_uuid_list():
 				uuid_store_list.append([obj['uuid'], obj['store']])
 	else:
 		print("Error getting uuids")
-
-	uuid_store_list = ['GA00031', 'Montague Gardens'], ['GA00032', 'Ottery'], ['GA00033', 'Crown Mines'], ['GA00034', 'Alberton'], ['GA00035', 'Germiston'], ['GA00036', 'Strubens Valley'], ['GA00037', 'Woodmead'], ['GA00038', 'Wonderboom'], ['GA00039', 'Silver Lakes'], ['GA00040', 'Centurion'], ['GA00041', 'Springfield'], ['GA00042', 'Cornubia'], ['GA00043', 'Amanzimtoti'], ['GA00044', 'Pietermaritzburg'], ['GA00045', 'Polokwane'], ['GA00046', 'Carnival'], ['GA00047', 'Germiston'], ['GA00048', 'Riversands']
 	
 	return(uuid_store_list)
 

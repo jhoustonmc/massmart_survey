@@ -130,7 +130,7 @@ $(function(){
 						}
             console.log('Authenticated');
             let logo = document.getElementById("logo");
-            logo.src = `static/${msg.image}`;
+            logo.src = `static/images/logos/${msg.image}`;
             if (msg.image == "Builderslogo.png") {
               logo.classList.add("builders-logo");
             }

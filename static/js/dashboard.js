@@ -1,4 +1,3 @@
-
 (function(){
 	// When the user clicks on the button, open the modal
   elements.logo.onclick = function() {
@@ -56,8 +55,6 @@
               var store_row = document.getElementById("store_rows");
               let i = 0;
 
-              console.log(msg.uuid_store_list);
-
               for (index in msg.uuid_store_list) {
                 if (i == 0) {
                   var store_col = document.createElement("div");
@@ -93,12 +90,8 @@
                     data: JSON.stringify(selected_stores_list),
                     contentType: "application/json",
                     success: function(msg){
-                      console.log(msg.bar_graph_display)
-                      console.log(msg.multiple_line_array)
-                      
                       globals.bar_graph_array = msg.bar_graph_array
                       globals.multiple_line_array = msg.multiple_line_array
-
                       displayBarGraph(globals.bar_graph_array)
                       displayLineGraph(globals.multiple_line_array)
                     },
