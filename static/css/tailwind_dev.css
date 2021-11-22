@@ -1,0 +1,13 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer components {  
+  .example {
+    @apply m-1 p-1;
+  }
+}
+
+.example2 {
+  color: aqua;
+}

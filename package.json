@@ -1,0 +1,26 @@
+{
+  "name": "y",
+  "version": "1.0.0",
+  "description": "bcx_thumbs_fingerpose",
+  "main": "index.js",
+  "scripts": {
+    "build-css": "postcss static/css/tailwind_dev.css -o static/css/tailwind.css --env production",
+    "dev-css": "postcss static/css/tailwind_dev.css -o static/css/tailwind.css --env development -w"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/rjwhobbs/bcx_thumbs.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/rjwhobbs/bcx_thumbs/issues"
+  },
+  "homepage": "https://github.com/rjwhobbs/bcx_thumbs#readme",
+  "dependencies": {
+    "autoprefixer": "10.3.1",
+    "postcss": "8.3.6",
+    "postcss-cli": "8.3.1",
+    "tailwindcss": "2.2.7"
+  }
+}

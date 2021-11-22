@@ -138,6 +138,8 @@ $(function(){
             document.getElementById("svg_thumb_up_popup").style.fill = `${msg.colour}`;
             document.getElementById("svg_thumb_down_popup").style.fill = `${msg.colour}`;
             document.getElementById("authentication_form").style.display = "none";
+            document.getElementById("pb-con").classList.remove("hidden");
+            document.getElementById("inner-progress-bar").style.backgroundColor = `${msg.colour}`;
             // main();
 						hands.onResults(onResults);
           } else {

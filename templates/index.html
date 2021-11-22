@@ -3,6 +3,7 @@
 <head>
   <title>Massmart RateMe service</title>
 
+
     <meta charset="utf-8">
   <link rel="icon" href="favicon.ico">
   <link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/npm/@mediapipe/control_utils@0.1/control_utils.css" crossorigin="anonymous"> 
@@ -20,6 +21,8 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
   <script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.3/jquery.min.js"> </script>
+
+  <link rel="stylesheet" href="{{ url_for('static', filename='css/tailwind.css') }}">
 
   <link rel="stylesheet" href="{{ url_for('static', filename='css/main.css') }}">
   <link rel="stylesheet" href="{{ url_for('static', filename='css/grid.css') }}">
@@ -67,6 +70,7 @@
   <!-- MP CONTROL PANEL -->
   <!-- partial:index.partial.html -->
   <div class="container" style="display: none">
+
 <!--     <video class="input_video" style="display: none;"></video>
     <canvas class="output_canvas" width="1280px" height="720px"></canvas> -->
 
@@ -102,6 +106,12 @@
         <div id="header" class="flex-con">
           <img id="logo" src="static/images/assets/BCX.png" style="cursor:pointer" />
         </div>
+        <div id="pb-con" class="hidden">
+          <span>Answer 5 more questions to unlock your reward!</span>
+          <div id="progressbar">
+            <div id="inner-progress-bar"></div>
+          </div>
+        </div>    
         <div id="result-con" class="flex-con flex-con-height">
           <form onsubmit="return false" id="authentication_form">
             <input class="input_login" required autocomplete="off" onchange="utils.sort_stores()" list="franchises" name="franchise" id="franchise" placeholder="Franchise">
@@ -118,9 +128,9 @@
             <input class="input_login" id="submit" type="submit"  value="Submit">
           </form>
           {% if error is defined %}
-            <span id="result">{{ error }}</span>
+            <span id="result" class="uppercase tl-span">{{ error }}</span>
           {% else %}
-            <span id="result">Please select a store and login.</span>
+            <span id="result" class="uppercase tl-span">Please select a store and login.</span>
           {% endif %}
         </div>
         <div class="flex-con">
@@ -171,7 +181,7 @@
               </svg>
             </div>
           </div>
-          <span id="tl-survey"style="font-size: 2.3vmax;">touchless survey</span>
+          <span id="tl-survey"style="font-size: 2.3vmax;" class="uppercase tl-span">touchless survey</span>
         </div>
       </div>
     </div>
@@ -245,8 +255,8 @@
 
   <!-- Snackbar message showing time to next screen -->
   <div id="snackbar">
-    <span id="sb_message" style="border-radius: 2px 0px 0px 2px;"></span>
-    <span id="seconds_left" style="border-radius: 0px 2px 2px 0px;">
+    <span id="sb_message" style="border-radius: 2px 0px 0px 2px;" class="uppercase tl-span"></span>
+    <span id="seconds_left" style="border-radius: 0px 2px 2px 0px;" class="uppercase tl-span">
     </span>
   </div>
   <script type="text/javascript">

@@ -26,6 +26,8 @@ let elements = (function() {
 
 	let logo = document.getElementById("logo");
 
+	let progressBar = document.getElementById("inner-progress-bar");
+
 	return {
 		snackbarDiv,
 		secondsLeft,
@@ -44,6 +46,7 @@ let elements = (function() {
 		dashboardModal,
 		openDashboard,
 		closeDashboard,
-		logo
+		logo,
+		progressBar
 	}
 })();

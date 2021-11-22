@@ -20,7 +20,7 @@ function run_next_step(result_name){
 
           globals.json_obj.Response[globals.step_counter] = "No";
         }
-
+      elements.progressBar.style.width = 14 * (globals.step_counter + 1) + "%";
       globals.in_timeout = 1;
         setTimeout(() => {
           elements.modal.style.display = "none";

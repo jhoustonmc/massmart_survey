@@ -4,6 +4,23 @@ body {
   font-family: "Muli", sans-serif;
 }
 
+#progressbar {
+  background-color: black;
+  border-radius: 13px;
+  /* (height of inner div) / 2 + padding */
+  padding: 3px;
+  width: 90%;
+  margin: auto;
+}
+
+#inner-progress-bar {
+  background-color: orange;
+  width: 0;
+  /* Adjust with JavaScript */
+  height: 20px;
+  border-radius: 10px;
+}
+
 /* .output_canvas {
   position: absolute;
   height: 720px;
@@ -197,12 +214,15 @@ video {
 }
 
 span {
-  text-transform: uppercase;
+  /* text-transform: uppercase; */
   text-align: center;
   padding: 4px;
-  font-size: 3.3vmax;
-  line-height: 4.4vmax;
   display: block;
+}
+
+.tl-span {
+  font-size: 2.5vmax;
+  line-height: 3vmax;
 }
 
 .span-resize {
@@ -353,7 +373,7 @@ span {
   }
 
   .flex-con-height {
-    height: 50vh;
+    height: 40vh;
   }
 
   #thumb {
