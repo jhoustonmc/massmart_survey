@@ -1,3 +1,4 @@
+
 (function(){
 	// When the user clicks on the button, open the modal
   elements.logo.onclick = function() {
@@ -6,7 +7,6 @@
   }
 
   // When the user clicks on <span> (x), close the modal
-  
   elements.closeDashboard.onclick = function() {
     dashboardModal.style.display = "none";
 		globals.in_timeout = 0;
@@ -27,7 +27,7 @@
 			document.getElementById("dashboard-password").style.display = "none";
 			document.getElementById("dashboard-submit").style.display = "none";
 			dashboardMessage.innerHTML = "Loading please wait...";
-
+            
 			$.ajax({
         url: '/get_all_data',
 				data: $('form').serialize(),
@@ -36,7 +36,6 @@
           globals.in_timeout = 1;
             if (msg.status == "success") {
               
-              document.getElementById('dashboard-logo').src = `static/images/logos/${globals.logo_name}`
               let month_list = document.querySelectorAll("option[id='month_list']")
               
               for (month in month_list) {
@@ -56,6 +55,8 @@
 
               var store_row = document.getElementById("store_rows");
               let i = 0;
+
+              console.log(msg.uuid_store_list);
 
               for (index in msg.uuid_store_list) {
                 if (i == 0) {
@@ -92,8 +93,12 @@
                     data: JSON.stringify(selected_stores_list),
                     contentType: "application/json",
                     success: function(msg){
+                      console.log(msg.bar_graph_display)
+                      console.log(msg.multiple_line_array)
+                      
                       globals.bar_graph_array = msg.bar_graph_array
                       globals.multiple_line_array = msg.multiple_line_array
+
                       displayBarGraph(globals.bar_graph_array)
                       displayLineGraph(globals.multiple_line_array)
                     },
@@ -149,7 +154,6 @@
 			});
 		});
 	});
-  
 
   function displayLineGraph(multiple_line_array) {
     

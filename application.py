@@ -6,9 +6,7 @@ from os import path, stat
 from flask.wrappers import Request
 
 app = Flask(__name__)
-# Temporary fix for POC by adding session session config here.
-app.secret_key = '\xfd{H\xe5<\x95\xf9\xe3\x96.5\xd1\x01O<!\xd5\xa2\xa0\x9fR"\xa1\xa8'
-app.config['SESSION_TYPE'] = 'filesystem'
+
 
 def download_single_azure_blob(container_name, blob_name, download_path):
 
@@ -48,6 +46,7 @@ def download_all_blobs(container_name, download_path):
 
 @app.route('/')
 def index():
+
 	config_container_name = "massmartconfigs"
 	config_blob_file_name = "config.json"
 
@@ -95,7 +94,7 @@ def index():
 
 	if (download_all_blobs(logo_container_name, logo_local_path) == -1):
 		return render_template('dashboard.html', error="Error with getting data from Azure")
-
+	franchise_list = ['Aramex', 'BCX', 'Builders', 'Game', 'Makro']
 	return render_template('dashboard.html', franchise=franchise_list, config_data=config_json_data)
 
 
@@ -107,10 +106,14 @@ def sort_stores():
 		with open("./data//list/massmartfranchiseslist.json") as f:
 			json_data = json.load(f)
 
-		store_list = []
-		for stores in json_data["stores"]:
-			if (stores["group"] == franchise):
-				store_list.append(stores["store"])
+		if (franchise == 'Aramex'):
+			store_list = ['Aramex Pretoria', 'Rustenburg', 'Polokwane', 'Lethabong']
+		else:
+			store_list = []
+			for stores in json_data["stores"]:
+				if (stores["group"] == franchise):
+					store_list.append(stores["store"])
+				
 
 		status = "success"
 		# Sending data to frontend
@@ -123,29 +126,37 @@ def authenticate():
 		try: 
 			franchise = request.form['franchise']
 			session['franchise'] = franchise
-			print(f'-----THE SESSION ---------\n{session["franchise"]}')
 			store = request.form['massmart_store']
 			password = request.form['password']
 		except:
 			return({"status": "Incorrect data submitted"})
 		with open("./data//list/massmartfranchiseslist.json") as f:
 			json_data = json.load(f)
-
+		
+		if (franchise == 'Aramex'):
+			questions = ["Did your package deliver on time?", "Were the staff that you interacted with helpful and friendly?", "Were all the products in good condition upon reception?", "Were you offered any additional products by an employee", "Would you recommend Aramex to a family member or friend?", "Do you or any of your immediate family members work for Aramex?"]
+			store_password = '54321'
+			colour = "#ff0000"
+			image = "Aramex.png"
+			status = "success"
+			uuid = "GA00031"
+			session['uuid_list'] = [uuid]
+		else:
 		# Getting colour, password, questions and franchise specific to store picked
-		for stores in json_data["stores"]:
-			if (stores["store"] == store and stores["group"] == franchise):
-				questions = stores["questions"]
-				store_password = stores["upassword"]
-				colour = stores["color"]
-				image = stores["logo"]
-				uuid = stores["uuid"]
-				session['uuid_list'] = [uuid]
-				status = "success"
-				break
-			else:
-				status = "error"
-		if (status == "error"):
-			return({"status": "Incorrect data submitted"})
+			for stores in json_data["stores"]:
+				if (stores["store"] == store and stores["group"] == franchise):
+					questions = stores["questions"]
+					store_password = stores["upassword"]
+					colour = stores["color"]
+					image = stores["logo"]
+					uuid = stores["uuid"]
+					session['uuid_list'] = [uuid]
+					status = "success"
+					break
+				else:
+					status = "error"
+			if (status == "error"):
+				return({"status": "Incorrect data submitted"})
 	
 		# Authenticating password
 		if (password == store_password):
@@ -156,8 +167,8 @@ def authenticate():
 
 
 def multiple_line_chart(json_data):
-	currentDate = 1
-	endDate = 31
+	currentDate = 0
+	endDate = 30
 	thumbsUpArray = []
 	thumbsDownArray = []
 	thumbsup = 0
@@ -223,6 +234,8 @@ def get_uuid_list():
 				uuid_store_list.append([obj['uuid'], obj['store']])
 	else:
 		print("Error getting uuids")
+
+	uuid_store_list = ['GA00031', 'Montague Gardens'], ['GA00032', 'Ottery'], ['GA00033', 'Crown Mines'], ['GA00034', 'Alberton'], ['GA00035', 'Germiston'], ['GA00036', 'Strubens Valley'], ['GA00037', 'Woodmead'], ['GA00038', 'Wonderboom'], ['GA00039', 'Silver Lakes'], ['GA00040', 'Centurion'], ['GA00041', 'Springfield'], ['GA00042', 'Cornubia'], ['GA00043', 'Amanzimtoti'], ['GA00044', 'Pietermaritzburg'], ['GA00045', 'Polokwane'], ['GA00046', 'Carnival'], ['GA00047', 'Germiston'], ['GA00048', 'Riversands']
 	
 	return(uuid_store_list)
 
@@ -270,6 +283,7 @@ def get_all_data():
 	status = "success"
 	all_store_data = get_franchise_data(session['uuid_list'])
 	all_store_line_array = multiple_line_chart(all_store_data)
+
 	i = 0
 	doughnut_q_array = []
 	while i < 6:
@@ -322,10 +336,9 @@ def write_txt(userData, file_uid):
 
 
 def az_uploader(upload_file_path, local_file_name):
+	#print ("In uploader")
 	container_name = "massmartsurveyuploads"
-
 	connect_str = "BlobEndpoint=https://bcxmassmartsurvey.blob.core.windows.net/;QueueEndpoint=https://bcxmassmartsurvey.queue.core.windows.net/;FileEndpoint=https://bcxmassmartsurvey.file.core.windows.net/;TableEndpoint=https://bcxmassmartsurvey.table.core.windows.net/;SharedAccessSignature=sv=2020-08-04&ss=bfqt&srt=sco&sp=rwdlacuptfx&se=2021-12-01T02:03:41Z&st=2021-08-01T18:03:41Z&spr=https&sig=HFhJncWthuHph3KM914TQeR8%2Bnf03uuPBpPoC%2BFBRXI%3D"
-
 	blob_service_client = BlobServiceClient.from_connection_string(connect_str)	
 
 	upload_status = -1
@@ -348,6 +361,7 @@ def az_uploader(upload_file_path, local_file_name):
 		if file_list > 1:
 			for file_name in glob.iglob("./data" + "//*.json", recursive=False):
 				jsnFileName = file_name.split("\\", 1)
+				#print ("Trying to upload " + jsnFileName[1])
 				az_uploader(file_name, jsnFileName[1])
 
 
@@ -364,6 +378,8 @@ def json_receiver():
 
 TEMPLATES_AUTO_RELOAD = True
 if __name__ == '__main__':
+	app.secret_key = '\xfd{H\xe5<\x95\xf9\xe3\x96.5\xd1\x01O<!\xd5\xa2\xa0\x9fR"\xa1\xa8'
+	app.config['SESSION_TYPE'] = 'filesystem'
 
 	app.run(debug=True, port=5000)
 

@@ -22,7 +22,7 @@ let elements = (function() {
 	// Dashboard elements
     let dashboardModal = document.getElementById("dashboardModal");
 	let openDashboard = document.getElementById("dashboardOpen");
-	let closeDashboard = document.getElementById("dashboardClose");
+	let closeDashboard = document.getElementsByClassName("dashboard-close")[0];
 
 	let logo = document.getElementById("logo");
 

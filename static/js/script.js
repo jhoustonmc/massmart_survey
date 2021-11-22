@@ -7,6 +7,13 @@ let canvasMediaStream = elements.canvasElement.captureStream();
 // call tick() each time the graph runs.
 const fpsControl = new FPS();
 
+for (month in month_list) {
+  let currentMonth =  new Date().getMonth()
+  if (month == currentMonth) {
+    document.getElementById(month_list[month].id).selected = true
+  }
+}
+
 navigator.mediaDevices.getUserMedia({ video: true, audio: false })
 .then(function(stream) {
 		elements.dummy_video.srcObject = stream;
@@ -121,9 +128,9 @@ $(function(){
 							elements.dummy_video.srcObject = canvasMediaStream;
 							elements.dummy_video.play();
 						}
-            globals.logo_name = msg.image;
+            console.log('Authenticated');
             let logo = document.getElementById("logo");
-            logo.src = `static/images/logos/${globals.logo_name}`;
+            logo.src = `static/${msg.image}`;
             if (msg.image == "Builderslogo.png") {
               logo.classList.add("builders-logo");
             }
