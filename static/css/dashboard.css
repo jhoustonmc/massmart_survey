@@ -1,0 +1,162 @@
+body {
+  background-color: #ffffff;
+  font-family: "Muli", sans-serif;
+}
+
+/* The Modal (background) */
+.dashboard-modal {
+  display: none;
+  position: fixed;
+  z-index: 1;
+  left: 0;
+  top: 0;
+  width: 100%;
+  height: 100%;
+  overflow: auto;
+  background-color: white;
+  /* background-color: rgba(0,0,0,0.4); */
+}
+
+/* Modal Content/Box */
+.dashboard-content {
+  background-color: #fefefe;
+  /* margin: 15% auto; */
+  padding: 20px;
+  /* border: 1px solid #888; */
+  /* width: 80%; */
+}
+
+/* The Close Button */
+.dashboard-close {
+  color: #aaa;
+  float: right;
+  font-size: 28px;
+  font-weight: bold;
+}
+
+.dashboard-close:hover,
+.dashboard-close:focus {
+  color: black;
+  text-decoration: none;
+  cursor: pointer;
+}
+
+.dash-flex-con {
+  display: flex;
+  flex-flow: row wrap;
+  row-gap: 60px;
+  justify-content: space-evenly;
+}
+
+.dash-flex-item {
+  max-width: 300px;
+}
+
+.db-wrapper {
+  width: 90%;
+  max-width: 1200px;
+  margin: 0 auto;
+}
+
+.db-border {
+  /* border: 1px solid black; */
+}
+
+.db-logo {
+  width: 20%;
+}
+
+.db-tc {
+  text-align: center;
+}
+
+.db-w-100 {
+  width: 100%;
+}
+
+.db-col-gap {
+  grid-gap: 5px;
+  /* row-gap: 5px; */
+}
+
+.db-pad {
+  padding: 10px;
+}
+
+.db-mt-5p {
+  margin-top: 5px;
+}
+
+.db-asc {
+  align-self: center;
+}
+
+.db-qnum {
+  /* flex: 0 1 6%; */
+  /* align-self: center; */
+  padding: 5px;
+  background-color: yellow;
+  text-align: center;
+
+}
+
+.db-d-f {
+  display: flex;
+  /* padding: 5px 5px 0px 0px; */
+}
+
+.db-jcc {
+  justify-content: center;
+}
+
+.db-bb {
+  border-bottom: 1px solid grey;
+}
+
+.db-pa {
+  padding: 5px;
+}
+
+.db-mt-50p {
+  margin-top: 50px;
+}
+
+.db-mt-20p {
+  margin-top: 20px;
+}
+
+.db-bg-blue {
+  background-color: rgb(50, 176, 255);
+}
+
+.db-br-5 {
+  border-radius: 5px;
+}
+
+.db-bg-d-yellow {
+  background-color:  rgb(254, 213, 31);
+}
+
+.db-fs-p {
+  font-size: 0.9rem;
+}
+
+.db-br-grey {
+  border: 1px solid grey
+}
+
+.db-button {
+  background-color: white;
+  border: none;
+  padding: 3px;
+  border: 1px solid gray;
+  border-radius: 5px;
+}
+
+.db-m-none {
+  margin: 0;
+}
+
+.db-ass {
+  align-self: start;
+}

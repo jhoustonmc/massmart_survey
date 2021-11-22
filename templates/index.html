@@ -1,0 +1,268 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Massmart RateMe service</title>
+
+    <meta charset="utf-8">
+  <link rel="icon" href="favicon.ico">
+  <link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/npm/@mediapipe/control_utils@0.1/control_utils.css" crossorigin="anonymous"> 
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.9.4/Chart.js"></script>
+  <script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/@mediapipe/camera_utils@0.1/camera_utils.js" crossorigin="anonymous"></script>
+  <script src="https://cdn.jsdelivr.net/npm/@mediapipe/control_utils@0.1/control_utils.js" crossorigin="anonymous"></script>
+  <script src="https://cdn.jsdelivr.net/npm/@mediapipe/drawing_utils@0.2/drawing_utils.js" crossorigin="anonymous"></script>
+  <script src="https://cdn.jsdelivr.net/npm/@mediapipe/hands@0.1/hands.js" crossorigin="anonymous"></script>
+  <script src="/static/js/moment.min.js"></script>
+  <script src="/static/js/fullscreen.js"></script>
+  <script src="/static/js/detect_browser.js"></script>
+
+  <meta http-equiv="Content-Type" content="text/html" charset="utf-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
+  <script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.3/jquery.min.js"> </script>
+
+  <link rel="stylesheet" href="{{ url_for('static', filename='css/main.css') }}">
+  <link rel="stylesheet" href="{{ url_for('static', filename='css/grid.css') }}">
+  <link rel="stylesheet" href="{{ url_for('static', filename='css/dashboard.css') }}">
+  <link rel="stylesheet" href="{{ url_for('static', filename='css/snackbar.css') }}">
+
+  <style>
+
+  * {
+    box-sizing: border-box;
+    user-select: none;
+  }
+  /* 
+    Layer here is for the actual streams that
+    are being processed, making them display none
+    for the time being as making its sizing dynamic breaks
+    the functions that are reading the image data.
+    (the sizing here gets overidden in the code).
+    Instead of displaying this layer stream we are
+    using a "dummy stream" so that we can make the 
+    stream sizing dynamic.
+  */
+  .layer {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    display: none;
+  }
+
+  #pose-video {
+    transform: scaleX(-1);
+  }
+
+  #pose-result {
+    font-size: 100px;
+    text-align: right;
+    padding: 20px 30px 0 0;
+  }
+  </style>
+</head>
+<body>
+  {% block dashboard %}{% endblock %}
+  <!-- MP CONTROL PANEL -->
+  <!-- partial:index.partial.html -->
+  <div class="container" style="display: none">
+<!--     <video class="input_video" style="display: none;"></video>
+    <canvas class="output_canvas" width="1280px" height="720px"></canvas> -->
+
+    <div class="loading">
+      <div class="spinner"></div>
+      <div class="message">
+        Loading
+      </div>
+    </div>
+    <a class="abs logo" href="http://www.mediapipe.dev" target="_blank">
+      <div style="display: flex;align-items: center;bottom: 0;right: 10px;">
+        <span class="title">MediaPipe</span>
+      </div>
+    </a>
+    <div class="shoutout">
+      <div>
+        <a href="https://solutions.mediapipe.dev/hands">
+          Click here for more info #######
+        </a>
+      </div>
+    </div>
+  </div>
+  
+  <div class="control-panel" style="display:none">
+  </div>
+<!-- partial -->
+<!-- MP CONTROL PANEL -->
+
+  <!-- Test test -->
+  <div class="row">
+    <div class="col-6">
+      <div class="">
+        <div id="header" class="flex-con">
+          <img id="logo" src="static/images/assets/BCX.png" style="cursor:pointer" />
+        </div>
+        <div id="result-con" class="flex-con flex-con-height">
+          <form onsubmit="return false" id="authentication_form">
+            <input class="input_login" required autocomplete="off" onchange="utils.sort_stores()" list="franchises" name="franchise" id="franchise" placeholder="Franchise">
+            <datalist id="franchises">
+              {% for x in franchise %}
+              <option>{{x}}</option>
+              {% endfor %}
+            </datalist>
+              <input class="input_login" required disabled autocomplete="off" list="massmart_stores" name="massmart_store" id="massmart_store" placeholder="Store Name">
+              <datalist id="massmart_stores">
+                <option id="store_list_menu"></option>
+              </datalist>
+            <input class="input_login" required type="password" name="password" id="password" placeholder="Password">
+            <input class="input_login" id="submit" type="submit"  value="Submit">
+          </form>
+          {% if error is defined %}
+            <span id="result">{{ error }}</span>
+          {% else %}
+            <span id="result">Please select a store and login.</span>
+          {% endif %}
+        </div>
+        <div class="flex-con">
+          <div id="thumbs_down_up">
+            <div class="d-inline-block icon">
+              <!-- thumbs down -->
+              <svg version="1.0" xmlns="http://www.w3.org/2000/svg"
+              width="244" height="256" viewBox="0 0 244 256"
+              preserveAspectRatio="xMidYMid meet">
+
+              <g id = "svg_thumb_down_icon" transform="translate(0.000000,256.000000) scale(0.100000,-0.100000)"
+              fill="#444" stroke="none">
+              <path d="M555 2550 c-123 -11 -166 -24 -223 -69 -97 -77 -145 -155 -126 -205
+              15 -39 -7 -88 -71 -156 -35 -38 -67 -81 -71 -97 -5 -19 1 -51 19 -103 36 -101
+              35 -119 -14 -176 -22 -27 -47 -62 -55 -77 -17 -31 -20 -21 50 -151 14 -27 26
+              -54 26 -61 0 -7 -20 -43 -45 -81 -38 -57 -44 -74 -39 -99 14 -66 88 -177 140
+              -211 45 -30 100 -36 409 -42 l310 -7 3 -44 c4 -58 -15 -115 -98 -291 -75 -159
+              -90 -215 -90 -323 0 -156 56 -268 161 -322 45 -24 122 -37 151 -26 24 9 25 15
+              37 128 26 255 71 383 168 474 155 146 166 160 207 259 97 235 210 424 287 480
+              22 16 61 32 85 36 l44 6 0 518 0 518 -22 5 c-115 28 -540 98 -643 106 -195 15
+              -498 20 -600 11z"/>
+              <path d="M1993 2495 c-64 -27 -63 -21 -63 -577 0 -481 1 -504 20 -535 26 -44
+              68 -53 240 -52 172 0 208 9 232 59 16 32 18 79 18 528 0 551 0 550 -64 577
+              -48 20 -337 20 -383 0z"/>
+              </g>
+              </svg>
+            </div>
+            <div class="d-inline-block icon">
+              <!-- thumbs up -->
+              <svg version="1.0" xmlns="http://www.w3.org/2000/svg"
+                width="244" height="256" viewBox="0 0 244 256"
+                preserveAspectRatio="xMidYMid meet">
+
+                <g id="svg_thumb_up_icon" transform="translate(0.000000,256.000000) scale(0.100000,-0.100000)"
+                fill="#444" stroke="none">
+                <path d="M1444 2550 c-18 -7 -22 -22 -33 -127 -26 -255 -71 -383 -168 -474
+                -155 -146 -166 -160 -207 -259 -97 -235 -210 -424 -287 -480 -22 -16 -61 -32
+                -85 -36 l-44 -6 0 -518 0 -518 23 -5 c115 -29 541 -99 652 -108 202 -16 584
+                -16 672 0 85 15 140 48 211 126 49 54 69 104 56 139 -15 39 7 88 71 156 35 38
+                67 81 71 97 5 19 -1 51 -19 103 -36 101 -35 119 14 176 22 27 47 62 55 77 17
+                31 20 21 -50 151 -14 27 -26 54 -26 61 0 7 20 43 45 81 38 57 44 74 39 99 -14
+                66 -88 177 -140 211 -45 30 -100 36 -409 42 l-310 7 -3 44 c-4 58 15 115 98
+                291 75 159 90 215 90 323 0 121 -40 229 -102 282 -61 52 -168 85 -214 65z"/>
+                <path d="M70 1217 c-24 -8 -41 -23 -52 -47 -16 -32 -18 -79 -18 -528 0 -551 0
+                -550 64 -577 49 -21 332 -21 381 -1 66 28 65 19 65 578 0 481 -1 504 -20 535
+                -13 21 -31 35 -57 42 -52 15 -319 13 -363 -2z"/>
+                </g>
+              </svg>
+            </div>
+          </div>
+          <span id="tl-survey"style="font-size: 2.3vmax;">touchless survey</span>
+        </div>
+      </div>
+    </div>
+
+    <div class="col-6">
+      <div  class="frame">
+        <video id="dummy_input"></video>
+        <div id="video-container">
+
+          <video id="pose-video" class="input_video" style="display: none;"></video>
+          
+
+          <!-- <video id="pose-video" class="layer" playsinline></video> -->
+          <!-- <canvas id="pose-canvas" class="layer"></canvas> -->
+          <div id="pose-result" class="layer"></div>
+        </div>
+      </div>
+    </div>
+    <div class="col-12">
+      <canvas id="pose-canvas" class="output_canvas" width="1280" height="960" style="display: none;"></canvas>
+    </div>
+  </div>
+
+	<!-- The Modal -->
+	<div id="myModal" class="modal">
+	  <img src="{{ url_for('static', filename='images/assets/QRcode.jpg') }}" class="modal-content" id="img01" style="display: none;">
+    <div class="modal-content">
+
+      <svg id="svg_thumb_down" version="1.0" xmlns="http://www.w3.org/2000/svg"
+        width="244" height="256" viewBox="0 0 244 256"
+        preserveAspectRatio="xMidYMid meet">
+
+        <g id="svg_thumb_down_popup" transform="translate(0.000000,256.000000) scale(0.100000,-0.100000)"
+        fill="#444" stroke="none">
+        <path d="M555 2550 c-123 -11 -166 -24 -223 -69 -97 -77 -145 -155 -126 -205
+        15 -39 -7 -88 -71 -156 -35 -38 -67 -81 -71 -97 -5 -19 1 -51 19 -103 36 -101
+        35 -119 -14 -176 -22 -27 -47 -62 -55 -77 -17 -31 -20 -21 50 -151 14 -27 26
+        -54 26 -61 0 -7 -20 -43 -45 -81 -38 -57 -44 -74 -39 -99 14 -66 88 -177 140
+        -211 45 -30 100 -36 409 -42 l310 -7 3 -44 c4 -58 -15 -115 -98 -291 -75 -159
+        -90 -215 -90 -323 0 -156 56 -268 161 -322 45 -24 122 -37 151 -26 24 9 25 15
+        37 128 26 255 71 383 168 474 155 146 166 160 207 259 97 235 210 424 287 480
+        22 16 61 32 85 36 l44 6 0 518 0 518 -22 5 c-115 28 -540 98 -643 106 -195 15
+        -498 20 -600 11z"/>
+        <path d="M1993 2495 c-64 -27 -63 -21 -63 -577 0 -481 1 -504 20 -535 26 -44
+        68 -53 240 -52 172 0 208 9 232 59 16 32 18 79 18 528 0 551 0 550 -64 577
+        -48 20 -337 20 -383 0z"/>
+        </g>
+      </svg>
+
+      <svg id="svg_thumb_up" version="1.0" xmlns="http://www.w3.org/2000/svg"
+        width="244" height="256" viewBox="0 0 244 256"
+        preserveAspectRatio="xMidYMid meet">
+
+        <g id="svg_thumb_up_popup" transform="translate(0.000000,256.000000) scale(0.100000,-0.100000)"
+        fill="#444" stroke="none">
+        <path d="M1444 2550 c-18 -7 -22 -22 -33 -127 -26 -255 -71 -383 -168 -474
+        -155 -146 -166 -160 -207 -259 -97 -235 -210 -424 -287 -480 -22 -16 -61 -32
+        -85 -36 l-44 -6 0 -518 0 -518 23 -5 c115 -29 541 -99 652 -108 202 -16 584
+        -16 672 0 85 15 140 48 211 126 49 54 69 104 56 139 -15 39 7 88 71 156 35 38
+        67 81 71 97 5 19 -1 51 -19 103 -36 101 -35 119 14 176 22 27 47 62 55 77 17
+        31 20 21 -50 151 -14 27 -26 54 -26 61 0 7 20 43 45 81 38 57 44 74 39 99 -14
+        66 -88 177 -140 211 -45 30 -100 36 -409 42 l-310 7 -3 44 c-4 58 15 115 98
+        291 75 159 90 215 90 323 0 121 -40 229 -102 282 -61 52 -168 85 -214 65z"/>
+        <path d="M70 1217 c-24 -8 -41 -23 -52 -47 -16 -32 -18 -79 -18 -528 0 -551 0
+        -550 64 -577 49 -21 332 -21 381 -1 66 28 65 19 65 578 0 481 -1 504 -20 535
+        -13 21 -31 35 -57 42 -52 15 -319 13 -363 -2z"/>
+        </g>
+      </svg>
+    </div>
+  </div>
+
+  <!-- Snackbar message showing time to next screen -->
+  <div id="snackbar">
+    <span id="sb_message" style="border-radius: 2px 0px 0px 2px;"></span>
+    <span id="seconds_left" style="border-radius: 0px 2px 2px 0px;">
+    </span>
+  </div>
+  <script type="text/javascript">
+    if ("{{ config_data }}")
+    console.log()
+      var devDebugConfig = parseInt("{{ config_data.debug }}");
+      var waitTimerConfig = parseInt("{{ config_data.wait_timer }}");
+      var countdownTimerConfig = parseInt("{{ config_data.countdown_timer }}");
+  </script>
+  <script src="/static/js/globals.js"></script>
+  <script src="/static/js/elements.js"></script>
+  <script src="/static/js/utils.js"></script>
+  <script src="/static/js/run_next_step.js"></script>
+  <script src="/static/js/get_predictions.js"></script>
+  <script src="/static/js/script.js"></script>
+  <script src="/static/js/dashboard.js"></script>
+</body>
+</html>
+

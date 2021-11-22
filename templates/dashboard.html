@@ -1,0 +1,88 @@
+{% extends 'index.html' %}
+
+{% block dashboard %}
+
+  <!-- The Modal -->
+  <div id="dashboardModal" class="dashboard-modal">
+    <!-- <div class="dashboard-content"> -->
+      <span id="dashboardClose" class="dashboard-close" >&times;</span>
+      <span  id = "dashboardMessage" ></span>
+      <input id = "dashboard-password" type="password" placeholder="password"/>
+      <button id = "dashboard-submit">Submit</button>
+
+    <div id="graph-display" class="db-wrapper" style="display: none;">
+    <!-- header -->
+
+      <div class="row db-col-gap db-mt-20p ">
+
+        <!--  logo -->
+
+        <div class="col-12 db-border db-asc db-d-f db-jcc db-mt-20p">
+          <img id="dashboard-logo" class="db-logo" src="/static/images/logos/BCX.png" alt="">
+        </div>
+
+        
+
+      </div>
+
+  <!-- Store buttons -->
+
+      <div class="row db-mt-50p db-col-gap">
+        <div class="col-6 db-border db-pad db-bg-blue db-br-5">
+          <h4 class="db-tc db-m-none">
+            Stores
+          </h4>
+          <div id="store_rows" class="row db-col-gap">
+          </div>
+        </div>
+
+        <!-- Questions -->
+
+        <div id="question_list" class="col-6 db-border db-fs-p db-br-grey db-br-5">
+
+          <div class="row db-bb">
+            <div class="col-1 db-qnum">
+              QNo
+            </div>
+            <div class="col-11 db-w-100 db-tc db-pa">
+              Questions
+            </div>
+          </div>
+        </div>
+
+        </div>
+        <select style="display: none;" name="months" id="select_months">
+          <option id="month_list" name="0" value="January">January</option>
+          <option id="month_list" name="1" value="February">February</option>
+          <option id="month_list" name="2" value="March">March</option>
+          <option id="month_list" name="3" value="April">April</option>
+          <option id="month_list" name="4" value="May">May</option>
+          <option id="month_list" name="5" value="June">June</option>
+          <option id="month_list" name="6" value="July">July</option>
+          <option id="month_list" name="7" value="August">August</option>
+          <option id="month_list" name="8" value="September">September</option>
+          <option id="month_list" name="9" value="October">October</option>
+          <option id="month_list" name="10" value="November">November</option>
+          <option id="month_list" name="11" value="December">December</option>
+        </select>
+      </div>
+
+  <!-- graphs -->
+
+      <div class="row db-mt-50p db-col-gap ">
+        <!-- Line chart -->
+
+        <div class="col-6">
+          <!-- <canvas id="line_chart" style="width:100%;max-width:700px"></canvas> -->
+          <div id="curve_chart" style="width:100%;max-width:700px;height: 100%;"></div>
+        </div>
+
+        <div class="col-6">
+          <div id="barchart_material" style="width: 100%; height: 100%;"></div>
+        </div>
+
+      </div>
+    </div>
+
+  </div>
+{% endblock %}

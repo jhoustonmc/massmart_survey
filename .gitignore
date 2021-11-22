@@ -1,0 +1,6 @@
+__pycache__/
+data/
+node_modules/
+static/images/logos/
+.vscode/
+config.json

@@ -1,0 +1,237 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.9.4/Chart.js"></script>
+  <script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
+  <link rel="stylesheet" href="/static/css/grid.css">
+  <link rel="stylesheet" href="/static/css/dashboard.css">
+  <title>Document</title>
+</head>
+<body>
+
+  <div class="db-wrapper">
+    <!-- header -->
+
+  <div class="row db-col-gap db-mt-20p ">
+
+    <!--  logo -->
+
+    <div class="col-12 db-border db-asc db-d-f db-jcc db-mt-20p">
+      <img class="db-logo" src="/static/images/logos/makrologo.png" alt="">
+    </div>
+
+    
+
+  </div>
+
+  <!-- Stores buttons -->
+
+  <div class="row db-mt-50p db-col-gap">
+    <div class="col-6 db-border db-pad db-bg-blue db-br-5">
+      <h4 class="db-tc db-m-none">
+        Stores
+      </h4>
+      <div class="row db-col-gap">
+        <div class="col-4">
+          <button class="db-w-100 db-mt-5p db-button">press me</button>
+          <button class="db-w-100 db-mt-5p db-button">press me</button>
+          <button class="db-w-100 db-mt-5p db-button">press me</button>
+          <button class="db-w-100 db-mt-5p db-button">press me</button>
+
+        </div>
+        <div class="col-4">
+          <button class="db-w-100 db-mt-5p db-button">press me</button>
+          <button class="db-w-100 db-mt-5p db-button">press me</button>
+          <button class="db-w-100 db-mt-5p db-button">press me</button>
+          <button class="db-w-100 db-mt-5p db-button">press me</button>
+        </div>
+        <div class="col-4">
+          <button class="db-w-100 db-mt-5p db-button">press me</button>
+          <button class="db-w-100 db-mt-5p db-button">press me</button>
+          <button class="db-w-100 db-mt-5p db-button">press me</button>
+        </div>
+      </div>
+    </div>
+
+    <!-- Questions -->
+
+    <div class="col-6 db-border db-fs-p db-br-grey db-br-5">
+
+      <div class="row db-bb">
+        <div class="col-1 db-qnum">
+          QNo
+        </div>
+        <div class="col-11 db-w-100 db-tc db-pa">
+          Questions
+        </div>
+      </div>
+
+      <div class="row db-bb">
+        <div class="col-1 db-qnum">
+          Q1
+        </div>
+        <div class="col-11 db-pa">
+          Lorem ipsum dolor sit amet consectetur adipisicing elit. Aut ratione aspernatur vitae quis at error, officia minus maiores.
+        </div>
+      </div>
+
+      <div class="row db-bb">
+        <div class="col-1 db-qnum">
+          Q2
+        </div>
+        <div class="col-11 db-pa">
+          Lorem ipsum dolor sit amet consectetur adipisicing elit. Aut ratione aspernatur vitae quis at error, officia minus maiores.
+        </div>
+      </div>
+
+      <div class="row db-bb">
+        <div class="col-1 db-qnum">
+          Q3
+        </div>
+        <div class="col-11 db-pa">
+          Lorem ipsum dolor sit amet consectetur adipisicing elit. Aut ratione aspernatur vitae quis at error, officia minus maiores.
+        </div>
+      </div>
+
+      <div class="row db-bb">
+        <div class="col-1 db-qnum">
+          Q4
+        </div>
+        <div class="col-11 db-pa">
+          Lorem ipsum dolor sit amet consectetur adipisicing elit. Aut ratione aspernatur vitae quis at error, officia minus maiores.
+        </div>
+      </div>
+
+      <div class="row db-bb">
+        <div class="col-1 db-qnum">
+          Q5
+        </div>
+        <div class="col-11 db-pa">
+          Lorem ipsum dolor sit amet consectetur adipisicing elit. Aut ratione aspernatur vitae quis at error, officia minus maiores.
+        </div>
+      </div>
+
+      <div class="row db-bb">
+        <div class="col-1 db-qnum">
+          Q6
+        </div>
+        <div class="col-11 db-pa">
+          Lorem ipsum dolor sit amet consectetur adipisicing elit. Aut ratione aspernatur vitae quis at error, officia minus maiores.
+        </div>
+      </div>
+
+      <div class="row db-bb">
+        <div class="col-1 db-qnum">
+          Q7
+        </div>
+        <div class="col-11 db-pa">
+          Lorem ipsum dolor sit amet consectetur adipisicing elit. Aut ratione aspernatur vitae quis at error, officia minus maiores.
+        </div>
+      </div>
+
+    </div>
+  </div>
+
+  <!-- graphs -->
+
+  <div class="row db-mt-50p db-col-gap ">
+
+    <!-- Line chart -->
+
+    <div class="col-6">
+      <div id="curve_chart" style="width: 900px; height: 500px"></div>
+    </div>
+
+    <div class="col-6">
+      <div id="barchart_material" style="width: 100%; height: 100%;"></div>
+    </div>
+
+  </div>
+  </div>
+
+  
+<script>
+  var xValues = [100,200,300,400,500,600,700,800,900,1000];
+
+  new Chart("line_chart", {
+    type: "line",
+    data: {
+      labels: xValues,
+      datasets: [{
+        data: [860,1140,1060,1060,1070,1110,1330,2210,7830,2478],
+        borderColor: "red",
+        fill: false
+      },{
+        data: [1600,1700,1700,1900,2000,2700,4000,5000,6000,7000],
+        borderColor: "green",
+        fill: false
+      }]
+    },
+    options: {
+      legend: {display: false}
+    }
+  });
+
+</script>
+<script type="text/javascript">
+  google.charts.load('current', {'packages':['bar']});
+  google.charts.setOnLoadCallback(drawChart);
+
+  function drawChart() {
+    var data = google.visualization.arrayToDataTable([
+      ['Q No', '', ''],
+      ['Q1', 1000, 400],
+      ['Q2', 1170, 460],
+      ['Q3', 660, 1120],
+      ['Q4', 1030, 540],
+      ['Q5', 1030, 540],
+      ['Q6', 1030, 540],
+      ['Q7', 1030, 540],
+    ]);
+
+    var options = {
+      colors: ['#008000', '#ff0000'],
+      legend: { position: "none" },
+      bars: 'horizontal' // Required for Material Bar Charts.
+    };
+
+    var chart = new google.charts.Bar(document.getElementById('barchart_material'));
+
+    chart.draw(data, google.charts.Bar.convertOptions(options));
+
+
+    
+    google.charts.load('current', {'packages':['corechart']});
+      google.charts.setOnLoadCallback(drawChart);
+
+        
+      const curve_line_display = []
+      curve_line_display.push(['Day', 'Thumbs up', 'Thumbs down'])
+      dateArray = [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23, 24, 25, 26, 27, 28, 29, 30, 31]
+      for (day in dateArray) {
+        curve_line_display.push([dateArray[day], Math.floor(Math.random() * 100), Math.floor(Math.random() * 100)]);
+      }
+
+      function drawChart() {
+        var data = google.visualization.arrayToDataTable(curve_line_display);
+
+        var options = {
+          title: 'Company Performance',
+          curveType: 'function',
+          legend: { position: 'bottom' }
+        };
+
+        var chart = new google.visualization.LineChart(document.getElementById('curve_chart'));
+
+        chart.draw(data, options);
+      }
+  }
+
+  
+</script>
+
+</body>
+</html>
