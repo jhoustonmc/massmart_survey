@@ -3,6 +3,8 @@ let elements = (function() {
 	let snackbarDiv = document.getElementById("snackbar");
 	let secondsLeft = document.getElementById("seconds_left");
 	let sbMessage = document.getElementById("sb_message");
+	let indicator = document.getElementById("indicator");
+	let indicator2 = document.getElementById("indicator2");
 
 	// Video elements
 	let dummy_video = document.getElementById("dummy_input");
@@ -30,6 +32,8 @@ let elements = (function() {
 		snackbarDiv,
 		secondsLeft,
 		sbMessage,
+		indicator,
+		indicator2,
 		videoElement,
 		canvasElement,
 		controlsElement,
