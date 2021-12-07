@@ -106,17 +106,17 @@
         </div>
         <div id="result-con" class="flex-con flex-con-height">
           <form onsubmit="return false" id="authentication_form">
-            <input class="input_login" required autocomplete="off" onchange="utils.sort_stores()" list="franchises" name="franchise" id="franchise" placeholder="Franchise">
+            <input class="input_login"  autocomplete="off" onchange="utils.sort_stores()" list="franchises" name="franchise" id="franchise" placeholder="Franchise">
             <datalist id="franchises">
               {% for x in franchise %}
               <option>{{x}}</option>
               {% endfor %}
             </datalist>
-              <input class="input_login" required disabled autocomplete="off" list="massmart_stores" name="massmart_store" id="massmart_store" placeholder="Store Name">
+              <input class="input_login"  disabled autocomplete="off" list="massmart_stores" name="massmart_store" id="massmart_store" placeholder="Store Name">
               <datalist id="massmart_stores">
                 <option id="store_list_menu"></option>
               </datalist>
-            <input class="input_login" required type="password" name="password" id="password" placeholder="Password">
+            <input class="input_login"  type="password" name="password" id="password" placeholder="Password">
             <input class="input_login" id="submit" type="submit"  value="Submit">
           </form>
           {% if error is defined %}
@@ -251,13 +251,6 @@
     <span id="seconds_left" style="border-radius: 0px 2px 2px 0px;">
     </span>
   </div>
-  <script type="text/javascript">
-    if ("{{ config_data }}")
-    console.log()
-      var devDebugConfig = parseInt("{{ config_data.debug }}");
-      var waitTimerConfig = parseInt("{{ config_data.wait_timer }}");
-      var countdownTimerConfig = parseInt("{{ config_data.countdown_timer }}");
-  </script>
   <script src="/static/js/globals.js"></script>
   <script src="/static/js/elements.js"></script>
   <script src="/static/js/utils.js"></script>

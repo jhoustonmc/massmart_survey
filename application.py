@@ -48,111 +48,14 @@ def download_all_blobs(container_name, download_path):
 
 @app.route('/')
 def index():
-	config_container_name = "massmartconfigs"
-	config_blob_file_name = "config.json"
-
-	# Downloading json config from Azure
-	if (download_single_azure_blob(config_container_name, config_blob_file_name, "./") == -1):
-		return render_template('dashboard.html', error="Error with getting data from Azure")
-	# Getting variables from config.json
-	try:
-		with open("./%s" % config_blob_file_name) as f:
-			config_json_data = json.load(f)
-	except:
-		return render_template('dashboard.html', error="Incoming configuration data is incorrect")
-
-	container_name = "massmartfranchises"
-	blob_file_name = "massmartfranchiseslist.json"
-	local_path = "./data//list"
-
-	# Making sure the data directory exists
-	if not path.exists(local_path):
-		os.makedirs(local_path)
-
-	# Downloading json from Azure
-	if (download_single_azure_blob(container_name, blob_file_name, local_path) == -1):
-		return render_template('dashboard.html', error="Error with getting data from Azure")
-
-	try:
-		with open("./data//list/%s" % blob_file_name) as f:
-			json_data = json.load(f)
-		franchise_list = []
-		string=""
-		for stores in json_data["stores"]:
-			if (string!=stores["group"]):
-				string=stores["group"]
-				franchise_list.append(stores["group"])
-	except:
-		return render_template('dashboard.html', error="Incoming data is incorrect")
-
-	# Downloading logos from Azure	
-	logo_container_name = "massmartlogos"
-	logo_local_path = "./static/images/logos"
-
-	# Making sure the logo directory exists
-	if not path.exists(logo_local_path):
-		os.mkdir(logo_local_path)
-
-	if (download_all_blobs(logo_container_name, logo_local_path) == -1):
-		return render_template('dashboard.html', error="Error with getting data from Azure")
-
-	return render_template('dashboard.html', franchise=franchise_list, config_data=config_json_data)
-
-
-@app.route('/sort_stores', methods=['GET'])
-def sort_stores():
-	if request.method == 'GET':
-		franchise = request.args.get('franchise')
-		# Getting data from json file
-		with open("./data//list/massmartfranchiseslist.json") as f:
-			json_data = json.load(f)
-
-		store_list = []
-		for stores in json_data["stores"]:
-			if (stores["group"] == franchise):
-				store_list.append(stores["store"])
-
-		status = "success"
-		# Sending data to frontend
-		return ({"status": status, "store_list": store_list})
-
-
-@app.route('/authenticate', methods=['POST'])
-def authenticate():
-	if request.method == 'POST':
-		try: 
-			franchise = request.form['franchise']
-			session['franchise'] = franchise
-			print(f'-----THE SESSION ---------\n{session["franchise"]}')
-			store = request.form['massmart_store']
-			password = request.form['password']
-		except:
-			return({"status": "Incorrect data submitted"})
-		with open("./data//list/massmartfranchiseslist.json") as f:
-			json_data = json.load(f)
-
-		# Getting colour, password, questions and franchise specific to store picked
-		for stores in json_data["stores"]:
-			if (stores["store"] == store and stores["group"] == franchise):
-				questions = stores["questions"]
-				store_password = stores["upassword"]
-				colour = stores["color"]
-				image = stores["logo"]
-				uuid = stores["uuid"]
-				session['uuid_list'] = [uuid]
-				status = "success"
-				break
-			else:
-				status = "error"
-		if (status == "error"):
-			return({"status": "Incorrect data submitted"})
-	
-		# Authenticating password
-		if (password == store_password):
-			status = "success"
-		else:
-			status = "Password incorrect"
-		return({"status": status, "store": store, "colour": colour, "franchise": franchise, "image": image, "questions":questions, "uuid":uuid })
+	status="success"
+	store="Centurion"
+	colour="#fff000"
+	franchise="BCX"
+	image="BCX.png"
+	questions=["Test question 1", "Test question 2", "Test question 3", "Test question 4", "Test question 5", "Test question 6"]
+	uuid="GA00032"
+	return(render_template("index.html"), {"status": status, "store": store, "colour": colour, "franchise": franchise, "image": image, "questions":questions, "uuid":uuid })
 
 
 def multiple_line_chart(json_data):
