@@ -12,6 +12,27 @@ body {
   top: 0;
 } */
 
+.indicator {
+  background: black;
+  border-radius: 50%;
+  width: 10px;
+  height: 10px;
+  position: absolute;
+  z-index: 99;
+  left: 0;
+  top: 0;
+}
+.indicator2 {
+  background: red;
+  border-radius: 50%;
+  width: 10px;
+  height: 10px;
+  position: absolute;
+  z-index: 99;
+  left: 15px;
+  top: 0;
+}
+
 .d-inline-block {
   display: inline-block;
 }

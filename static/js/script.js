@@ -108,46 +108,69 @@ $(function(){
   $('#submit').click(function(){
     let loginMessage = document.getElementById("result");
     loginMessage.innerHTML = "Logging in, please wait...";
+    if (globals.devDebug) {
+      elements.dummy_video.style.transform = "scaleX(1)";
+      elements.dummy_video.srcObject = canvasMediaStream;
+      elements.dummy_video.play();
+    }
+    globals.logo_name ="BCX.png";
+    let logo = document.getElementById("logo");
+    logo.src = `static/images/logos/${globals.logo_name}`;
+    // if (msg.image == "Builderslogo.png") {
+    //   logo.classList.add("builders-logo");
+    // }
+    globals.questions.push(["Test question 1"], ["Test question 2"], ["Test question 3"], ["Test question 4"], ["Test question 5"], ["Test question 6"]);
+    globals.questionsLength = globals.questions.length;
+    for (let i = 0; i < globals.questionsLength; i++) {
+      globals.json_obj.Q_NO[i] = globals.questions[i];
+    }
+    globals.json_obj.Device = "GA00032";
+    document.getElementById("svg_thumb_up_icon").style.fill = "#fff";
+    document.getElementById("svg_thumb_down_icon").style.fill = "#fff";
+    document.getElementById("svg_thumb_up_popup").style.fill = "#fff";
+    document.getElementById("svg_thumb_down_popup").style.fill = "#fff";
+    document.getElementById("authentication_form").style.display = "none";
+    hands.onResults(onResults);
 
-    $.ajax({
-      url: '/authenticate',
-      data: $('form').serialize(),
-      type: 'POST',
-        success: function(msg){
-          if (msg.status == "success") {
-            loginMessage.innerHTML = "Login successful, loading please wait...";
-						if (globals.devDebug) {
-							elements.dummy_video.style.transform = "scaleX(1)";
-							elements.dummy_video.srcObject = canvasMediaStream;
-							elements.dummy_video.play();
-						}
-            globals.logo_name = msg.image;
-            let logo = document.getElementById("logo");
-            logo.src = `static/images/logos/${globals.logo_name}`;
-            if (msg.image == "Builderslogo.png") {
-              logo.classList.add("builders-logo");
-            }
-            globals.questions.push(...msg.questions);
-						globals.questionsLength = msg.questions.length;
-            for (let i = 0; i < msg.questions.length; i++) {
-              globals.json_obj.Q_NO[i] = msg.questions[i];
-            }
-            globals.json_obj.Device = `${msg.uuid}`;
-            document.getElementById("svg_thumb_up_icon").style.fill = `${msg.colour}`;
-            document.getElementById("svg_thumb_down_icon").style.fill = `${msg.colour}`;
-            document.getElementById("svg_thumb_up_popup").style.fill = `${msg.colour}`;
-            document.getElementById("svg_thumb_down_popup").style.fill = `${msg.colour}`;
-            document.getElementById("authentication_form").style.display = "none";
-            // main();
-						hands.onResults(onResults);
-          } else {
-            loginMessage.innerHTML = msg.status;
-          }
-        },
-        error: function(msg){
-          console.log("400/500 error");
-        }
-    });
+    // $.ajax({
+    //   url: '/authenticate',
+    //   data: $('form').serialize(),
+    //   type: 'POST',
+    //     success: function(msg){
+    //       if (msg.status == "success") {
+    //         loginMessage.innerHTML = "Login successful, loading please wait...";
+		// 				if (globals.devDebug) {
+		// 					elements.dummy_video.style.transform = "scaleX(1)";
+		// 					elements.dummy_video.srcObject = canvasMediaStream;
+		// 					elements.dummy_video.play();
+		// 				}
+    //         globals.logo_name = msg.image;
+    //         let logo = document.getElementById("logo");
+    //         logo.src = `static/images/logos/${globals.logo_name}`;
+    //         if (msg.image == "Builderslogo.png") {
+    //           logo.classList.add("builders-logo");
+    //         }
+    //         globals.questions.push(...msg.questions);
+		// 				globals.questionsLength = msg.questions.length;
+    //         for (let i = 0; i < msg.questions.length; i++) {
+    //           globals.json_obj.Q_NO[i] = msg.questions[i];
+    //         }
+    //         globals.json_obj.Device = `${msg.uuid}`;
+    //         document.getElementById("svg_thumb_up_icon").style.fill = `${msg.colour}`;
+    //         document.getElementById("svg_thumb_down_icon").style.fill = `${msg.colour}`;
+    //         document.getElementById("svg_thumb_up_popup").style.fill = `${msg.colour}`;
+    //         document.getElementById("svg_thumb_down_popup").style.fill = `${msg.colour}`;
+    //         document.getElementById("authentication_form").style.display = "none";
+    //         // main();
+		// 				hands.onResults(onResults);
+    //       } else {
+    //         loginMessage.innerHTML = msg.status;
+    //       }
+    //     },
+    //     error: function(msg){
+    //       console.log("400/500 error");
+    //     }
+    // });
   });
 });
 

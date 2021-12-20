@@ -1,6 +1,6 @@
 let globals = (function() {
 	// Dev settings
-	let devDebug = devDebugConfig;
+	let devDebug = 1;
 
 	// Browser aspect ratio
 	let videoWidth = 1280;
@@ -54,8 +54,8 @@ let globals = (function() {
 	// Inactive timer
 	let startTimer;
 	let current;
-	let inactiveLength = waitTimerConfig * 1000;
-	let inactiveCountdown = countdownTimerConfig * 1000;
+	let inactiveLength = 10 * 1000;
+	let inactiveCountdown = 10 * 1000;
 	let firstOnResultRun = true;
 	let startWorkerTimer = true;
 	let inactiveWorker;

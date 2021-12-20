@@ -1,5 +1,6 @@
 function run_next_step(result_name){
 
+
   if (globals.in_timeout == 0){
     if (globals.is_first_run == 1){
       globals.is_first_run = 0;
@@ -7,6 +8,7 @@ function run_next_step(result_name){
     else {
       if (result_name == "thumbs_up" || result_name == "thumbs_down"){
         if (result_name == "thumbs_up"){
+          elements.indicator2.style.backgroundColor = "greenyellow";
           elements.svgThumbDown.style.display = "none";
           elements.svgThumbUp.style.display = "block";
           elements.modal.style.display = "block";
@@ -14,11 +16,20 @@ function run_next_step(result_name){
           globals.json_obj.Response[globals.step_counter] = "Yes";
         }
         else if (result_name == "thumbs_down"){
+          elements.indicator2.style.backgroundColor = "red";
           elements.svgThumbUp.style.display = "none";
           elements.svgThumbDown.style.display = "block";
           elements.modal.style.display = "block";
 
           globals.json_obj.Response[globals.step_counter] = "No";
+        }
+        if (globals.step_counter % 2)
+        {
+          elements.indicator.style.backgroundColor = "blue";
+        }
+        else
+        {
+          elements.indicator.style.backgroundColor = "black";
         }
 
       globals.in_timeout = 1;
@@ -27,6 +38,8 @@ function run_next_step(result_name){
 
           globals.step_counter = globals.step_counter + 1;
           if (globals.step_counter == 7) {
+              elements.indicator.style.backgroundColor = "purple"
+              elements.indicator2.style.backgroundColor = "purple"
 
               globals.step_counter = 0;
               
@@ -99,7 +112,7 @@ function run_next_step(result_name){
 						globals.timestamp = moment().format();
             globals.json_obj.TimeStamp = globals.timestamp;
 
-            utils.az_send_data(globals.json_obj); // send the data to azure
+            // utils.az_send_data(globals.json_obj); // send the data to azure
           }
           else{
               document.getElementById("result").innerHTML = globals.questions[globals.step_counter];
