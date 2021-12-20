@@ -130,7 +130,6 @@ def authenticate():
         try:
             franchise = request.form['franchise']
             session['franchise'] = franchise
-            print(f'-----THE SESSION ---------\n{session["franchise"]}')
             store = request.form['massmart_store']
             password = request.form['password']
         except:
