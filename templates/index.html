@@ -251,6 +251,13 @@
     <span id="seconds_left" style="border-radius: 0px 2px 2px 0px;">
     </span>
   </div>
+  <script type="text/javascript">
+    if ("{{ config_data }}")
+    console.log()
+      var devDebugConfig = parseInt("{{ config_data.debug }}");
+      var waitTimerConfig = parseInt("{{ config_data.wait_timer }}");
+      var countdownTimerConfig = parseInt("{{ config_data.countdown_timer }}");
+  </script>
   <script src="/static/js/globals.js"></script>
   <script src="/static/js/elements.js"></script>
   <script src="/static/js/utils.js"></script>
